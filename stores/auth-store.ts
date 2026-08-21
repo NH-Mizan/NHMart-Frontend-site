@@ -1,0 +1,1 @@
+import { create } from 'zustand'; type User={id:string;name:string;email:string}; type State={user:User|null;setUser:(user:User|null)=>void;logout:()=>void}; export const useAuthStore=create<State>((set)=>({user:null,setUser:(user)=>set({user}),logout:()=>set({user:null})}));
