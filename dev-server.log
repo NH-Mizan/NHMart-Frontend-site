@@ -7,50 +7,12 @@
    - Network:      http://192.168.1.8:3000
 
  ✓ Starting...
- ✓ Ready in 7.8s
+ ✓ Ready in 7.1s
+ ○ Compiling / ...
+ ✓ Compiled / in 28.1s (744 modules)
+ GET / 200 in 305ms
+ GET / 200 in 2998ms
  ○ Compiling /admin ...
- ✓ Compiled /admin in 5.7s (740 modules)
- GET /admin 200 in 7993ms
- GET /admin 200 in 3286ms
- GET /admin 200 in 823ms
- GET /admin 200 in 229ms
- ○ Compiling /_not-found ...
- ✓ Compiled /_not-found in 2s (745 modules)
- GET /admin/users 404 in 3396ms
- GET /admin/users 404 in 582ms
- GET /admin 200 in 843ms
- GET /admin/customers 404 in 64ms
- GET /admin/customers 404 in 240ms
- GET /admin 200 in 520ms
- ○ Compiling / ...
- ✓ Compiled / in 7.8s (746 modules)
- GET / 200 in 11606ms
- ○ Compiling /_not-found ...
- ✓ Compiled /_not-found in 4.3s (745 modules)
- GET / 404 in 3817ms
- GET / 404 in 215ms
- GET / 404 in 106ms
- GET / 404 in 171ms
- GET / 404 in 60ms
- GET / 404 in 743ms
- ○ Compiling / ...
- ✓ Compiled / in 5.5s (777 modules)
- GET / 200 in 6479ms
- GET / 200 in 202ms
- GET / 200 in 233ms
- GET / 200 in 130ms
- GET / 200 in 146ms
- ✓ Compiled in 5.2s (787 modules)
- GET / 200 in 713ms
- ○ Compiling /about ...
- ✓ Compiled /about in 2.8s (777 modules)
- GET /about 200 in 3734ms
- ○ Compiling /_error ...
- ✓ Compiled /_error in 3.7s (1124 modules)
- GET / 500 in 6223ms
- GET / 200 in 684ms
- GET / 200 in 301ms
- GET / 200 in 273ms
- GET / 200 in 145ms
- GET / 200 in 304ms
- GET / 200 in 177ms
+ ✓ Compiled /admin in 3.2s (772 modules)
+ GET /admin 200 in 5207ms
+ GET / 200 in 543ms

@@ -5,22 +5,3 @@
  Detected additional lockfiles: 
    * D:\Mern-projects\nhmart\frontEnd\package-lock.json
 
- ⨯ Error: Cannot find module './404.js'
-Require stack:
-- D:\Mern-projects\nhmart\frontEnd\.next\server\webpack-runtime.js
-- D:\Mern-projects\nhmart\frontEnd\.next\server\app\about\page.js
-- D:\Mern-projects\nhmart\frontEnd\node_modules\next\dist\server\require.js
-- D:\Mern-projects\nhmart\frontEnd\node_modules\next\dist\server\load-components.js
-- D:\Mern-projects\nhmart\frontEnd\node_modules\next\dist\build\utils.js
-- D:\Mern-projects\nhmart\frontEnd\node_modules\next\dist\build\swc\options.js
-- D:\Mern-projects\nhmart\frontEnd\node_modules\next\dist\build\swc\index.js
-- D:\Mern-projects\nhmart\frontEnd\node_modules\next\dist\build\next-config-ts\transpile-config.js
-- D:\Mern-projects\nhmart\frontEnd\node_modules\next\dist\server\config.js
-- D:\Mern-projects\nhmart\frontEnd\node_modules\next\dist\server\next.js
-- D:\Mern-projects\nhmart\frontEnd\node_modules\next\dist\server\lib\start-server.js
-    at <unknown> (D:\Mern-projects\nhmart\frontEnd\.next\server\app\page.js:2:10461)
-    at Object.<anonymous> (D:\Mern-projects\nhmart\frontEnd\.next\server\app\page.js:2:10515) {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [Array],
-  page: '/'
-}
