@@ -1,0 +1,19 @@
+# Free demo: database expires after 30 days; services sleep when idle.
+services:
+  - type: web
+    name: nhmart-storefront
+    runtime: node
+    region: singapore
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start -- --port $PORT
+    healthCheckPath: /login
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        value: /api/v1
+      - key: API_INTERNAL_URL
+        sync: false

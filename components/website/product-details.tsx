@@ -1,0 +1,20 @@
+'use client';
+import Link from 'next/link';
+import {useQuery,useMutation,useQueryClient} from '@tanstack/react-query';
+import {Heart,Package,Truck} from 'lucide-react';
+import {useState} from 'react';
+import {api,errorMessage} from '../../lib/api';
+import {Product} from '../../lib/types';
+import {useAuthStore} from '../../stores/auth-store';
+import {ProductDetailsSkeleton} from '../ui/skeleton';
+import {ProductPurchase} from './product-purchase';
+export function ProductDetails({slug}:{slug:string}){
+  const product=useQuery({queryKey:['product',slug],queryFn:async()=>(await api.get('/storefront/products/'+encodeURIComponent(slug))).data.data as Product});
+  const[image,setImage]=useState(0),[notice,setNotice]=useState(''),[rating,setRating]=useState(5),[comment,setComment]=useState('');const user=useAuthStore(s=>s.user),qc=useQueryClient();
+  const wishlist=useMutation({mutationFn:()=>api.post('/customer/wishlist',{productId:product.data!.id}),onSuccess:()=>{setNotice('Saved to your wishlist');qc.invalidateQueries({queryKey:['wishlist']})},onError:error=>setNotice(errorMessage(error))});
+  const review=useMutation({mutationFn:()=>api.post('/storefront/products/'+product.data!.id+'/reviews',{rating,comment}),onSuccess:()=>setComment('')});
+  if(product.isLoading)return <ProductDetailsSkeleton/>;
+  if(product.error||!product.data)return <div className="empty-state"><h1>Product unavailable</h1><p>{errorMessage(product.error)}</p><Link href="/products">Back to shop</Link></div>;
+  const p=product.data;
+  return <div className="product-detail-page"><div className="store-breadcrumb"><Link href="/products">Shop</Link> / <Link href={'/category/'+p.category?.slug}>{p.category?.name}</Link> / {p.name}</div><section className="product-details"><div><div className="detail-image">{p.images[image]?<img src={p.images[image].url} alt={p.images[image].alt||p.name}/>:<Package size={80}/>}</div><div className="detail-thumbs">{p.images.map((photo,index)=><button className={image===index?'selected':''} key={photo.url} onClick={()=>setImage(index)} aria-label={'View photo '+(index+1)}><img src={photo.url} alt=""/></button>)}</div></div><div className="detail-copy"><span className="home-kicker">{p.brand?.name||p.category?.name}</span><h1>{p.name}</h1><p className="muted">SKU: {p.sku}</p><ProductPurchase key={p.id} product={p}/><button className="reference-wishlist" disabled={wishlist.isPending} onClick={()=>user?wishlist.mutate():setNotice('Sign in to save products to your wishlist')}><Heart size={17}/>Save to wishlist</button>{notice&&<div className="notice" role="status">{notice} <Link href={user?'/wishlist':'/account/login'}>{user?'View wishlist':'Sign in'}</Link></div>}<p className="delivery-note"><Truck size={19}/>Cash on delivery. Delivery charge shown at checkout.</p></div></section><section className="detail-description"><h2>Product details</h2><p>{p.description||'Contact the store for more information about this product.'}</p></section><section className="detail-reviews"><h2>Customer reviews ({p.reviews?.length??0})</h2>{p.reviews?.map(r=><article key={r.id}><strong>{r.user.name} · {r.rating}/5</strong><p>{r.comment}</p></article>)}{!p.reviews?.length&&<p className="muted">No approved reviews yet.</p>}{user?<form className="store-form" onSubmit={e=>{e.preventDefault();review.mutate()}}><h3>Review your purchase</h3><p className="muted">Available after delivery. Reviews are checked before publication.</p><label>Rating<select value={rating} onChange={e=>setRating(Number(e.target.value))}>{[5,4,3,2,1].map(n=><option key={n} value={n}>{n} / 5</option>)}</select></label><label>Your review<textarea required minLength={5} maxLength={2000} value={comment} onChange={e=>setComment(e.target.value)}/></label>{review.error&&<p className="notice error" role="alert">{errorMessage(review.error)}</p>}{review.isSuccess&&<p className="notice" role="status">Review submitted for approval.</p>}<button className="primary-cta" disabled={review.isPending}>Submit review</button></form>:<Link href="/account/login">Sign in to review a delivered purchase</Link>}</section></div>;
+}

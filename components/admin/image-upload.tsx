@@ -1,0 +1,5 @@
+'use client';
+import { useState } from 'react';
+import { Upload } from 'lucide-react';
+import { api,errorMessage } from '../../lib/api';
+export function ImageUpload({onUploaded,multiple=false}:{onUploaded:(url:string)=>void;multiple?:boolean}){const[busy,setBusy]=useState(false),[error,setError]=useState('');return <div className="image-upload"><label className="upload-button"><Upload size={15}/>{busy?'Uploading…':'Upload image'+(multiple?'s':'')}<input hidden disabled={busy} type="file" accept="image/jpeg,image/png,image/webp" multiple={multiple} onChange={async e=>{const files=Array.from(e.target.files??[]);setError('');setBusy(true);try{for(const file of files){if(file.size>5*1024*1024)throw new Error('Images must be smaller than 5 MB');const{data}=await api.post('/uploads',file,{headers:{'Content-Type':file.type}});onUploaded(data.data.url)}}catch(error){setError(errorMessage(error))}finally{setBusy(false);e.target.value=''}}}/></label><small>JPEG, PNG or WebP · up to 5 MB per image</small>{error&&<p className="notice error" role="alert">{error}</p>}</div>}

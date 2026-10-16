@@ -1,0 +1,8 @@
+'use client';
+import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
+import { ArrowRight,Layers3 } from 'lucide-react';
+import { api,errorMessage } from '../../lib/api';
+import {CategoriesSkeleton} from '../ui/skeleton';
+import type { Category } from '../../lib/types';
+export function CategoriesGrid(){const query=useQuery({queryKey:['storefront-categories'],queryFn:async()=>(await api.get('/storefront/categories')).data.data as Category[]});return <section className="market-container market-all-collections"><div className="market-listing-heading"><nav aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><span>Categories</span></nav><div><h1>Shop by Category</h1><p>Find your next favourite in our collection.</p></div></div>{query.isLoading?<CategoriesSkeleton/>:query.error?<p className="notice error">{errorMessage(query.error)}</p>:<div className="market-categories-grid">{query.data?.map(category=><article key={category.id}><Link className="market-category-cover" href={'/category/'+category.slug}>{category.image?<img src={category.image} alt={category.name} loading="lazy"/>:<Layers3 size={40}/>}</Link><div><h2><Link href={'/category/'+category.slug}>{category.name}</Link></h2><p>{category._count?.products??0} products</p>{!!category.subcategories?.length&&<div className="market-category-sublinks">{category.subcategories.map(sub=><Link key={sub.id} href={'/subcategory/'+sub.slug}>{sub.name}</Link>)}</div>}<Link className="market-explore" href={'/category/'+category.slug}>Explore collection <ArrowRight size={14}/></Link></div></article>)}</div>}</section>}

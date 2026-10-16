@@ -1,1 +1,7 @@
-import {WebsiteShell} from '../../components/website/website-shell'; export default function Products(){return <WebsiteShell><section className="inner-hero products-hero"><span>THE COLLECTION</span><h1>Products made for living.</h1><p>Explore our latest selection of practical, beautiful essentials.</p></section><section className="product-placeholder"><div><span>COMING SOON</span><h2>Our collection is growing.</h2><p>Product browsing and filters will appear here as catalogue data is connected.</p></div></section></WebsiteShell>}
+import Link from 'next/link';
+import { Suspense } from 'react';
+import { WebsiteShell } from '../../components/website/website-shell';
+import {CollectionSkeleton} from '../../components/ui/skeleton';
+import { Catalogue } from '../../components/website/catalogue';
+export const metadata={title:'Shop | NH Mart',description:'Browse our latest collection. Cash on delivery across Bangladesh.'};
+export default function Products(){return <WebsiteShell><header className="market-listing-heading market-container"><nav aria-label="Breadcrumb"><Link href="/">Home</Link><span>/</span><span>Shop</span></nav><div><h1>All Products</h1><p>Explore the latest styles in our collection.</p></div></header><Suspense fallback={<CollectionSkeleton/>}><Catalogue/></Suspense></WebsiteShell>}
